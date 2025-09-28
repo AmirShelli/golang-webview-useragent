@@ -1,0 +1,37 @@
+# Binaries and executables
+webview-useragent-demo
+test-app
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go specific
+*.test
+*.out
+*.prof
+go.sum
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Build artifacts
+build/
+dist/
+
+# Temporary files
+*.tmp
+*.log
+
+# Test task PDF (contains original requirements)
+Test\ Task\ Golang.pdf
