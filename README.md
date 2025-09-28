@@ -113,3 +113,7 @@ The architecture is already there, just needs the platform-specific calls.
 ├── build.sh                    # Build script
 └── README.md                   # This file
 ```
+
+## Acknowledgments
+
+Based on [webview/webview](https://github.com/webview/webview) and [webview/webview_go](https://github.com/webview/webview_go).
