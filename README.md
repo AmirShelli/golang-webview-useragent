@@ -1,12 +1,9 @@
 # WebView SetUserAgent Implementation
 
-This project implements the `SetUserAgent` functionality for the webview library on **macOS only**, with an architecture that makes it easy to add Linux and Windows support later.
+This project implements the `SetUserAgent` functionality for the webview library on macOS, the architecture makes it easy to add Linux and Windows support later.
+The `SetUserAgent()` method sets a custom user agent string in your Go webview applications.
 
-## What This Does
-
-Adds a `SetUserAgent()` method to webview so you can set a custom user agent string in your Go webview applications.
-
-## Simple Usage
+## How to Use
 
 ```go
 package main
@@ -31,21 +28,20 @@ func main() {
 
 ```bash
 ./build.sh                 # Builds the demo app
-./webview-useragent-demo    # Runs it - you'll see the custom user agent!
+./webview-useragent-demo    # Runs it
 ```
 
-## Simple Implementation Overview
+## Implementation Overview
 
-This implementation touches exactly **4 files**:
+The implementation follows the same pattern as other webview functions to keep it consistent with the existing codebase.
 
 ### 1. **C API Declaration** (`webview/core/include/webview/api.h`)
-Just added one line:
 ```c
 WEBVIEW_API webview_error_t webview_set_user_agent(webview_t w, const char *user_agent);
 ```
 
 ### 2. **C API Implementation** (`webview/core/include/webview/c_api_impl.hh`)
-Simple wrapper that calls the C++ method:
+Wrapper that calls the C++ method:
 ```cpp
 WEBVIEW_API webview_error_t webview_set_user_agent(webview_t w, const char *user_agent) {
   return api_filter([=] { return cast_to_webview(w)->set_user_agent(user_agent); });
@@ -63,7 +59,7 @@ noresult set_user_agent_impl(const std::string &user_agent) override {
 ```
 
 ### 4. **Go Binding** (`webview_go/webview.go`)
-Simple Go wrapper:
+Go wrapper over the C library:
 ```go
 func (w *webview) SetUserAgent(userAgent string) {
     s := C.CString(userAgent)
@@ -72,21 +68,21 @@ func (w *webview) SetUserAgent(userAgent string) {
 }
 ```
 
-## Easy Future Scaling
+## For Future Scaling
 
-**To add Linux support later**, you'd just need to uncomment one line in `gtk_webkitgtk.hh`:
+To add Linux support later, you'd just need to uncomment one line in `gtk_webkitgtk.hh`:
 ```cpp
 // Currently: return {}; (placeholder)
 // Change to: webkit_settings_set_user_agent(settings, user_agent.c_str());
 ```
 
-**To add Windows support later**, same thing in `win32_edge.hh`:
+To add Windows support later, same thing in `win32_edge.hh`:
 ```cpp
 // Currently: return {}; (placeholder)
 // Change to: settings2->put_UserAgent(wuser_agent.c_str());
 ```
 
-That's it! The architecture is already there, just needs the platform-specific calls.
+The architecture is already there, just needs the platform-specific calls.
 
 ## Dependencies
 
@@ -104,5 +100,3 @@ That's it! The architecture is already there, just needs the platform-specific c
 ├── build.sh                    # Build script
 └── README.md                   # This file
 ```
-
-**Key insight**: This follows the exact same pattern as other webview functions like `SetTitle()` and `SetSize()`, so it's very consistent with the existing codebase.
