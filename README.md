@@ -26,10 +26,29 @@ func main() {
 
 ## How to Build & Run
 
+Clone the repository:
 ```bash
-./build.sh                 # Builds the demo app
-./webview-useragent-demo    # Runs it
+git clone git@github.com:AmirShelli/golang-webview-useragent.git
+cd golang-webview-useragent
 ```
+
+Then build and run the demo:
+```bash
+chmod +x build.sh           # Make sure build script is executable
+./build.sh                  # Builds the demo app
+./webview-useragent-demo     # Runs it - opens webview with custom user agent
+```
+
+Or if you prefer to build manually:
+```bash
+go build -o webview-useragent-demo cmd/main.go
+./webview-useragent-demo
+```
+
+**Requirements:**
+- macOS (this implementation is macOS-only)
+- Go 1.19+ installed
+- No dependencies needed with WebKit built-in
 
 ## Implementation Overview
 
@@ -83,12 +102,6 @@ To add Windows support later, same thing in `win32_edge.hh`:
 ```
 
 The architecture is already there, just needs the platform-specific calls.
-
-## Dependencies
-
-- **macOS**: None (WebKit built-in)
-- **Future Linux**: `webkit2gtk-4.0` dev packages
-- **Future Windows**: WebView2 runtime
 
 ## Project Structure
 
